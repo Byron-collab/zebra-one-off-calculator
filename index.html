@@ -60,16 +60,9 @@
     padding: 1rem;
     margin-top: 1.5rem;
     border-radius: 4px;
-      font-family: monospace;
-  white-space: pre-line;
-
-  
+    font-family: monospace;
+    white-space: pre-line;
   }
-..result-box p:last-child {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
 </style>
 </head>
 <body>
@@ -116,11 +109,11 @@ function calculateTotal() {
   const total = labour + materialsCost;
 
   const resultDiv = document.getElementById('result');
-  resultDiv.textContent =
-    'Labour: $' + labour.toFixed(2) + '\n' +
-    'Materials (x1.5): $' + materialsCost.toFixed(2) + '\n' +
-    'Total: $' + total.toFixed(2);
-  resultDiv.style.display = 'block';
+  resultDiv.innerHTML =
+    'Labour: $' + labour.toFixed(2) + '<br>' +
+    'Materials (x1.5): $' + materialsCost.toFixed(2) + '<br>' +
+    '<span style="font-size: 1.25rem; font-weight: bold;">Total: $' + total.toFixed(2) + '</span>';
+resultDiv.style.display = 'block';
 }
 </script>
 </body>

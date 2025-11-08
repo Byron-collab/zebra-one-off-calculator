@@ -233,6 +233,12 @@ function calculateEstimate() {
   document.getElementById('estimateBox').style.display = 'block';
 }
 
+// Combined update function to refresh both labour and total estimate
+function updateCalculator() {
+  updateLabour();
+  calculateEstimate();
+}
+
 function calculateAndCopyTotal() {
   calculateEstimate();
   const total = document.getElementById('totalValue').innerText;
@@ -246,19 +252,18 @@ function resetForm() {
   document.getElementById('teamSize').value = '1p';
   document.getElementById('hours').value = 1;
   document.getElementById('materials').value = 0;
-  updateLabour();
-  document.getElementById('estimateBox').style.display = 'none';
+  // After resetting values, update both labour and total estimate
+  updateCalculator();
 }
 
-// Update labour details when inputs change
-['clientType','teamSize','hours'].forEach(id => {
-  document.getElementById(id).addEventListener('change', updateLabour);
-  document.getElementById(id).addEventListener('input', updateLabour);
+// Update calculator details (labour and total) whenever relevant inputs change
+['clientType','teamSize','hours','materials'].forEach(id => {
+  document.getElementById(id).addEventListener('change', updateCalculator);
+  document.getElementById(id).addEventListener('input', updateCalculator);
 });
 
-// Also update labour when materials input changes (not necessary but ensures live updates) but we only update estimate on copy or manual call.
-
-updateLabour();
+// Perform an initial calculation on page load
+updateCalculator();
 </script>
 </body>
 </html>

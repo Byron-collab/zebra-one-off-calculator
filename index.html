@@ -191,7 +191,7 @@
     </div>
     <div class="labour-box" id="labourBox">
       <div class="value" id="labourValue">$0.00</div>
-      <p id="labourDesc">Estimate Labour</p>
+      <!-- Removed labour description paragraph to avoid showing rate breakdown -->
     </div>
   </div>
   <div class="estimate-box" id="estimateBox">
@@ -218,7 +218,7 @@ function updateLabour() {
   const hours = parseFloat(document.getElementById('hours').value) || 0;
   const labour = rates[client][team] * hours;
   document.getElementById('labourValue').innerText = labour.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  document.getElementById('labourDesc').innerText = `${client} · ${getTeamLabel(team)} at ${rates[client][team].toLocaleString('en-US',{style:'currency',currency:'USD'})}/h × ${hours}h`;
+  // We intentionally do not update a labour description element here since the UI no longer shows the detailed breakdown
 }
 
 function calculateEstimate() {

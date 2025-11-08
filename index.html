@@ -99,14 +99,16 @@
   .materials-group input::placeholder {
     color: var(--subtext-color);
   }
-  .labour-box {
-    flex: 1;
-    min-width: 250px;
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 1rem;
-  }
+      /* Hide the labour breakdown box so only the total is displayed */
+      .labour-box {
+         flex: 1;
+         min-width: 250px;
+         background-color: var(--bg-color);
+         border: 1px solid var(--border-color);
+         border-radius: 4px;
+         padding: 1rem;
+         display: none;
+       }
   .labour-box .value {
     font-size: 1.75rem;
     font-weight: bold;
@@ -194,7 +196,7 @@
   </div>
   <div class="estimate-box" id="estimateBox">
     <div class="price" id="totalValue">$0.00</div>
-    <p id="breakdown"></p>
+        <!-- Removed breakdown display; only show total estimate -->
   </div>
   <div class="buttons">
     <button class="primary" onclick="calculateAndCopyTotal()">Copy Total</button>
@@ -229,7 +231,8 @@ function calculateEstimate() {
   const materialsCost = materials * 1.5;
   const total = labour + materialsCost;
   document.getElementById('totalValue').innerText = total.toLocaleString('en-US',{style:'currency',currency:'USD'});
-  document.getElementById('breakdown').innerText = `= Labour ${labour.toLocaleString('en-US',{style:'currency',currency:'USD'})} + Materials ${materials.toLocaleString('en-US',{style:'currency',currency:'USD'})} × 1.5 = ${materialsCost.toLocaleString('en-US',{style:'currency',currency:'USD'})}`;
+      // Removed breakdown details; do not show labour or materials breakdown
+      // document.getElementById('breakdown').innerText = '';
   document.getElementById('estimateBox').style.display = 'block';
 }
 

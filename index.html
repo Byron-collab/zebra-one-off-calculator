@@ -2,119 +2,263 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Zebra One-Off Job Calculator</title>
+<title>Calculator for One-Off Jobs</title>
 <style>
+  :root {
+    --bg-color: #0a192f;
+    --card-bg: #0e2747;
+    --border-color: #273c5a;
+    --text-color: #e2e8f0;
+    --subtext-color: #94a3b8;
+    --primary-color: #1d4ed8;
+  }
   body {
+    background-color: var(--bg-color);
     font-family: Arial, sans-serif;
-    background-color: #f5f6fa;
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    color: #333;
+    color: var(--text-color);
+    margin: 0;
+    padding: 1rem;
   }
-  .calculator-card {
-    background: #fff;
+  .container {
+    max-width: 900px;
+    margin: auto;
+    background-color: var(--card-bg);
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     padding: 2rem;
-    max-width: 480px;
-    width: 100%;
   }
-  h1 {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2rem;
+  }
+  header h1 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    color: #1e40af;
+    margin: 0;
   }
-  label {
-    display: block;
-    margin-top: 1rem;
+  header p {
+    font-size: 0.875rem;
+    color: var(--subtext-color);
+    margin: 0;
+  }
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .form-group {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group label {
+    margin-bottom: 0.25rem;
     font-weight: bold;
+    color: var(--subtext-color);
   }
-  select, input {
-    width: 100%;
+  .form-group select,
+  .form-group input {
     padding: 0.5rem;
-    margin-top: 0.5rem;
-    border: 1px solid #d1d5db;
     border-radius: 4px;
-    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
     box-sizing: border-box;
   }
+  .form-group small {
+    margin-top: 0.25rem;
+    color: var(--subtext-color);
+    font-size: 0.75rem;
+  }
+  .cost-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .cost-row .materials-group {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+  }
+  .materials-group label {
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+    color: var(--subtext-color);
+  }
+  .materials-group input {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+  .materials-group input::placeholder {
+    color: var(--subtext-color);
+  }
+  .labour-box {
+    flex: 1;
+    min-width: 250px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1rem;
+  }
+  .labour-box .value {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  .labour-box p {
+    margin: 0;
+    color: var(--subtext-color);
+  }
+  .estimate-box {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+  .estimate-box .price {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+  }
+  .estimate-box p {
+    margin: 0.25rem 0;
+  }
+  .buttons {
+    display: flex;
+    gap: 1rem;
+  }
   button {
-    margin-top: 1.5rem;
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #1e3a8a;
-    color: #fff;
+    padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 4px;
-    font-size: 1rem;
     cursor: pointer;
+    font-size: 1rem;
   }
-  button:hover {
-    background-color: #1d4ed8;
+  button.primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
   }
-  .result-box {
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    padding: 1rem;
-    margin-top: 1.5rem;
-    border-radius: 4px;
-    font-family: monospace;
-    white-space: pre-line;
+  button.secondary {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
   }
 </style>
 </head>
 <body>
-<div class="calculator-card">
-  <h1>Zebra One-Off Job Calculator</h1>
-  <label for="clientType">Client Type</label>
-  <select id="clientType">
-    <option value="Domestic">Domestic</option>
-    <option value="Commercial">Commercial</option>
-  </select>
-
-  <label for="teamSize">Team Composition</label>
-  <select id="teamSize">
-    <option value="1p">1 P</option>
-    <option value="1p1a">1 P &amp; 1 A</option>
-    <option value="2p">2 P</option>
-  </select>
-
-  <label for="hours">Hours</label>
-  <input type="number" id="hours" min="0" value="1">
-
-  <label for="materials">Materials ($)</label>
-  <input type="number" id="materials" min="0" value="0">
-
-  <button onclick="calculateTotal()">Calculate Total</button>
-
-  <div id="result" class="result-box" style="display: none;"></div>
+<div class="container">
+  <header>
+    <h1>Calculator for One-Off Jobs</h1>
+    <p>Labour + Materials × 1.5</p>
+  </header>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="clientType">Client Type</label>
+      <select id="clientType">
+        <option value="Domestic">Domestic</option>
+        <option value="Commercial">Commercial</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="teamSize">Work Team</label>
+      <select id="teamSize">
+        <option value="1p">1 Plumber</option>
+        <option value="1p1a">1 Plumber &amp; 1 Apprentice</option>
+        <option value="2p">2 Plumbers</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="hours">Hours Needed (hours)</label>
+      <input type="number" id="hours" min="0" value="1">
+      <small>Common: 1,2,3,4,6,8,12,16,24,32</small>
+    </div>
+  </div>
+  <div class="cost-row">
+    <div class="materials-group">
+      <label for="materials">Materials Cost</label>
+      <input type="number" id="materials" min="0" value="0" placeholder="Type raw cost incl. GST if applicable (we'll add a 50% markup).">
+    </div>
+    <div class="labour-box" id="labourBox">
+      <div class="value" id="labourValue">$0.00</div>
+      <p id="labourDesc">Estimate Labour</p>
+    </div>
+  </div>
+  <div class="estimate-box" id="estimateBox">
+    <div class="price" id="totalValue">$0.00</div>
+    <p id="breakdown"></p>
+  </div>
+  <div class="buttons">
+    <button class="primary" onclick="calculateAndCopyTotal()">Copy Total</button>
+    <button class="secondary" onclick="resetForm()">Reset</button>
+  </div>
 </div>
-
 <script>
-function calculateTotal() {
-  const clientType = document.getElementById('clientType').value;
-  const teamSize = document.getElementById('teamSize').value;
+const rates = {
+  Domestic: { '1p': 550, '1p1a': 650, '2p': 800 },
+  Commercial: { '1p': 220, '1p1a': 300, '2p': 440 }
+};
+
+function getTeamLabel(team) {
+  return team === '1p' ? '1 Plumber' : team === '1p1a' ? '1 Plumber & 1 Apprentice' : '2 Plumbers';
+}
+
+function updateLabour() {
+  const client = document.getElementById('clientType').value;
+  const team = document.getElementById('teamSize').value;
+  const hours = parseFloat(document.getElementById('hours').value) || 0;
+  const labour = rates[client][team] * hours;
+  document.getElementById('labourValue').innerText = labour.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  document.getElementById('labourDesc').innerText = `${client} · ${getTeamLabel(team)} at ${rates[client][team].toLocaleString('en-US',{style:'currency',currency:'USD'})}/h × ${hours}h`;
+}
+
+function calculateEstimate() {
+  const client = document.getElementById('clientType').value;
+  const team = document.getElementById('teamSize').value;
   const hours = parseFloat(document.getElementById('hours').value) || 0;
   const materials = parseFloat(document.getElementById('materials').value) || 0;
-
-  const rates = {
-    Domestic: { '1p': 550, '1p1a': 650, '2p': 800 },
-    Commercial: { '1p': 220, '1p1a': 300, '2p': 440 }
-  };
-
-  const labour = rates[clientType][teamSize] * hours;
+  const labour = rates[client][team] * hours;
   const materialsCost = materials * 1.5;
   const total = labour + materialsCost;
-
-  const resultDiv = document.getElementById('result');
-  resultDiv.innerHTML =
-    'Labour: $' + labour.toFixed(2) + '<br>' +
-    'Materials (x1.5): $' + materialsCost.toFixed(2) + '<br>' +
-    '<span style="font-size: 1.25rem; font-weight: bold;">Total: $' + total.toFixed(2) + '</span>';
-resultDiv.style.display = 'block';
+  document.getElementById('totalValue').innerText = total.toLocaleString('en-US',{style:'currency',currency:'USD'});
+  document.getElementById('breakdown').innerText = `= Labour ${labour.toLocaleString('en-US',{style:'currency',currency:'USD'})} + Materials ${materials.toLocaleString('en-US',{style:'currency',currency:'USD'})} × 1.5 = ${materialsCost.toLocaleString('en-US',{style:'currency',currency:'USD'})}`;
+  document.getElementById('estimateBox').style.display = 'block';
 }
+
+function calculateAndCopyTotal() {
+  calculateEstimate();
+  const total = document.getElementById('totalValue').innerText;
+  navigator.clipboard.writeText(total);
+  // optionally, show a temporary notification
+  alert(`Total copied: ${total}`);
+}
+
+function resetForm() {
+  document.getElementById('clientType').value = 'Domestic';
+  document.getElementById('teamSize').value = '1p';
+  document.getElementById('hours').value = 1;
+  document.getElementById('materials').value = 0;
+  updateLabour();
+  document.getElementById('estimateBox').style.display = 'none';
+}
+
+// Update labour details when inputs change
+['clientType','teamSize','hours'].forEach(id => {
+  document.getElementById(id).addEventListener('change', updateLabour);
+  document.getElementById(id).addEventListener('input', updateLabour);
+});
+
+// Also update labour when materials input changes (not necessary but ensures live updates) but we only update estimate on copy or manual call.
+
+updateLabour();
 </script>
 </body>
 </html>
